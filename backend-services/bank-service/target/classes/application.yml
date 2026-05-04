@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: bank-service
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+
+server:
+  port: 8083
+
+payments:
+  bank:
+    code: A
+
+logging:
+  pattern:
+    console: "%d{ISO8601} %-5level [%X{correlationId}] %logger - %msg%n"
+
+---
+spring:
+  config.activate.on-profile: docker
+  datasource:
+    url: jdbc:postgresql://postgres:5432/bank_a
+    username: payments
+    password: payments
+  flyway:
+    enabled: true

@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: npci-switch-service
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+
+server:
+  port: 8082
+
+payments:
+  npci:
+    bank-a-base-url: http://localhost:8083
+    bank-b-base-url: http://localhost:8084
+
+logging:
+  pattern:
+    console: "%d{ISO8601} %-5level [%X{correlationId}] %logger - %msg%n"
+
+---
+spring:
+  config.activate.on-profile: docker
+  datasource:
+    url: jdbc:postgresql://postgres:5432/npci
+    username: payments
+    password: payments
+
+payments:
+  npci:
+    bank-a-base-url: http://bank-a:8083
+    bank-b-base-url: http://bank-b:8084

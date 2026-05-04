@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: psp-service
+
+server:
+  port: 8081
+
+payments:
+  psp:
+    npci-base-url: http://localhost:8082
+
+logging:
+  pattern:
+    console: "%d{ISO8601} %-5level [%X{correlationId}] %logger - %msg%n"
+
+---
+spring:
+  config.activate.on-profile: docker
+
+payments:
+  psp:
+    npci-base-url: http://npci:8082

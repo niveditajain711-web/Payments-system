@@ -1,0 +1,9 @@
+com\payments\psp\config\CorrelationIdFilter.class
+com\payments\psp\PspApplication.class
+com\payments\psp\api\PspCollectController.class
+com\payments\psp\config\PspProperties.class
+com\payments\psp\api\PspBalanceController.class
+com\payments\psp\client\NpciForwardClient.class
+com\payments\psp\config\PspConfig.class
+com\payments\psp\api\PspInternalVpaController.class
+com\payments\psp\api\PspPaymentController.class

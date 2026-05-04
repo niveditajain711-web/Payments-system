@@ -1,0 +1,16 @@
+com\payments\bank\BankApplication.class
+com\payments\bank\repo\IdempotencyRepository.class
+com\payments\bank\repo\AccountRepository.class
+com\payments\bank\domain\IdempotencyEntity.class
+com\payments\bank\service\LedgerService.class
+com\payments\bank\api\GlobalExceptionHandler.class
+com\payments\bank\domain\AccountEntity$Kind.class
+com\payments\bank\api\InternalJournalController.class
+com\payments\bank\config\CorrelationIdFilter.class
+com\payments\bank\config\BankConfig.class
+com\payments\bank\domain\AccountEntity.class
+com\payments\bank\dev\BankDemoSeed.class
+com\payments\bank\domain\LedgerLineEntity.class
+com\payments\bank\repo\LedgerLineRepository.class
+com\payments\bank\config\BankProperties.class
+com\payments\bank\api\InternalBalanceController.class

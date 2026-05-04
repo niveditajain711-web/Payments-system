@@ -1,0 +1,12 @@
+com\payments\tpap\api\TpapDeviceController.class
+com\payments\tpap\api\TpapDeviceController$DeviceBindResponse.class
+com\payments\tpap\config\CorrelationIdFilter.class
+com\payments\tpap\api\TpapBalanceController.class
+com\payments\tpap\api\TpapPaymentController.class
+com\payments\tpap\config\CorsConfig.class
+com\payments\tpap\api\TpapCollectController.class
+com\payments\tpap\api\TpapVpaController.class
+com\payments\tpap\client\PspForwardClient.class
+com\payments\tpap\config\TpapConfig.class
+com\payments\tpap\TpapApplication.class
+com\payments\tpap\config\TpapProperties.class
