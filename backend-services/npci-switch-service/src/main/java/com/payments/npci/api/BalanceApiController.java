@@ -1,6 +1,7 @@
 package com.payments.npci.api;
 
 import com.payments.contracts.dto.BalanceResponse;
+import com.payments.contracts.http.ApiPaths;
 import com.payments.npci.service.BalanceQueryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping(ApiPaths.NPCI_BASE)
 public class BalanceApiController {
 
     private final BalanceQueryService balanceQueryService;
@@ -18,7 +19,7 @@ public class BalanceApiController {
         this.balanceQueryService = balanceQueryService;
     }
 
-    @GetMapping("/balance")
+    @GetMapping(ApiPaths.BALANCE)
     public ResponseEntity<BalanceResponse> balance(@RequestParam String vpa) {
         try {
             return ResponseEntity.ok(balanceQueryService.balance(vpa));

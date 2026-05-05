@@ -4,6 +4,7 @@ import com.payments.contracts.dto.CollectApproveRequest;
 import com.payments.contracts.dto.CollectCreatedResponse;
 import com.payments.contracts.dto.CollectRequest;
 import com.payments.contracts.dto.PayResponse;
+import com.payments.contracts.http.ApiPaths;
 import com.payments.contracts.http.HttpHeaders;
 import com.payments.tpap.client.PspForwardClient;
 import jakarta.validation.Valid;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping(ApiPaths.TPAP_BASE)
 public class TpapCollectController {
 
     private final PspForwardClient psp;
@@ -25,18 +26,18 @@ public class TpapCollectController {
         this.psp = psp;
     }
 
-    @PostMapping("/collect-requests")
+    @PostMapping(ApiPaths.COLLECT_REQUESTS)
     public ResponseEntity<CollectCreatedResponse> create(
             @RequestHeader(value = HttpHeaders.IDEMPOTENCY_KEY, required = false) String idem,
             @Valid @RequestBody CollectRequest body) {
-        return psp.postJson("/api/v1/collect-requests", body, idem, CollectCreatedResponse.class);
+        return psp.createCollect(body, idem);
     }
 
-    @PostMapping("/collect-requests/{id}/approve")
+    @PostMapping(ApiPaths.COLLECT_APPROVE)
     public ResponseEntity<PayResponse> approve(
             @PathVariable String id,
             @RequestHeader(value = HttpHeaders.IDEMPOTENCY_KEY, required = false) String idem,
             @Valid @RequestBody CollectApproveRequest body) {
-        return psp.postJson("/api/v1/collect-requests/" + id + "/approve", body, idem, PayResponse.class);
+        return psp.approveCollect(id, body, idem);
     }
 }

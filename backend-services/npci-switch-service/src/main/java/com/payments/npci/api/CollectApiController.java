@@ -4,6 +4,7 @@ import com.payments.contracts.dto.CollectApproveRequest;
 import com.payments.contracts.dto.CollectCreatedResponse;
 import com.payments.contracts.dto.CollectRequest;
 import com.payments.contracts.dto.PayResponse;
+import com.payments.contracts.http.ApiPaths;
 import com.payments.contracts.http.HttpHeaders;
 import com.payments.npci.service.CollectService;
 import jakarta.validation.Valid;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping(ApiPaths.NPCI_BASE)
 public class CollectApiController {
 
     private final CollectService collectService;
@@ -27,13 +28,13 @@ public class CollectApiController {
         this.collectService = collectService;
     }
 
-    @PostMapping("/collect-requests")
+    @PostMapping(ApiPaths.COLLECT_REQUESTS)
     public CollectCreatedResponse create(@RequestHeader(value = HttpHeaders.IDEMPOTENCY_KEY, required = false) String idem,
                                          @Valid @RequestBody CollectRequest body) {
         return collectService.create(body, idem);
     }
 
-    @PostMapping("/collect-requests/{id}/approve")
+    @PostMapping(ApiPaths.COLLECT_APPROVE)
     public ResponseEntity<PayResponse> approve(@PathVariable String id,
                                                  @RequestHeader(value = HttpHeaders.IDEMPOTENCY_KEY, required = false) String idem,
                                                  @Valid @RequestBody CollectApproveRequest body) {

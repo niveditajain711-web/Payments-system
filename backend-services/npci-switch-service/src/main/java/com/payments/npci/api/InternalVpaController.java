@@ -1,6 +1,7 @@
 package com.payments.npci.api;
 
 import com.payments.contracts.dto.internal.VpaResolveResponse;
+import com.payments.contracts.http.ApiPaths;
 import com.payments.npci.domain.VpaDirectoryEntity;
 import com.payments.npci.repo.VpaDirectoryRepository;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/internal/v1/vpas")
+@RequestMapping(ApiPaths.NPCI_BASE)
 public class InternalVpaController {
 
     private final VpaDirectoryRepository vpaDirectory;
@@ -24,18 +25,18 @@ public class InternalVpaController {
         this.vpaDirectory = vpaDirectory;
     }
 
-    @GetMapping("/{vpa}")
-    public ResponseEntity<VpaResolveResponse> resolve(@PathVariable String vpa) {
-        return vpaDirectory.findById(vpa)
+    @GetMapping(ApiPaths.REGISTER_VPA_WITH_ID)
+    public ResponseEntity<VpaResolveResponse> resolve(@PathVariable("vpaId") String vpaId) {
+        return vpaDirectory.findById(vpaId)
                 .map(row -> ResponseEntity.ok(new VpaResolveResponse(row.getVpa(), row.getBankCode(), row.getAccountId().toString())))
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping("/{vpa}")
-    public VpaResolveResponse register(@PathVariable String vpa, @RequestBody Map<String, String> body) {
+    @PutMapping(ApiPaths.REGISTER_VPA_WITH_ID)
+    public VpaResolveResponse register(@PathVariable("vpaId") String vpaId, @RequestBody Map<String, String> body) {
         String bankCode = body.get("bankCode");
         UUID accountId = UUID.fromString(body.get("accountId"));
-        vpaDirectory.save(new VpaDirectoryEntity(vpa, bankCode, accountId));
-        return new VpaResolveResponse(vpa, bankCode, accountId.toString());
+        vpaDirectory.save(new VpaDirectoryEntity(vpaId, bankCode, accountId));
+        return new VpaResolveResponse(vpaId, bankCode, accountId.toString());
     }
 }

@@ -2,6 +2,7 @@ package com.payments.npci.client;
 
 import com.payments.contracts.dto.internal.BankJournalApplyRequest;
 import com.payments.contracts.dto.internal.BankJournalApplyResponse;
+import com.payments.contracts.http.ApiPaths;
 import com.payments.contracts.http.HttpHeaders;
 import org.slf4j.MDC;
 import org.springframework.http.client.JdkClientHttpRequestFactory;
@@ -25,7 +26,7 @@ public class BankRailClient {
                 .requestFactory(requestFactory)
                 .build();
         var spec = client.post()
-                .uri("/internal/v1/journals/apply")
+                .uri(ApiPaths.BANK_BASE + ApiPaths.JOURNALS_APPLY)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON);
         if (cid != null && !cid.isBlank()) {

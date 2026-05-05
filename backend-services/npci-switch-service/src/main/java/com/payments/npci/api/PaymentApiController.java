@@ -2,6 +2,7 @@ package com.payments.npci.api;
 
 import com.payments.contracts.dto.PayRequest;
 import com.payments.contracts.dto.PayResponse;
+import com.payments.contracts.http.ApiPaths;
 import com.payments.contracts.http.HttpHeaders;
 import com.payments.npci.service.PayOrchestrationService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping(ApiPaths.NPCI_BASE)
 public class PaymentApiController {
 
     private final PayOrchestrationService payOrchestration;
@@ -23,7 +24,7 @@ public class PaymentApiController {
         this.payOrchestration = payOrchestration;
     }
 
-    @PostMapping("/payments/pay")
+    @PostMapping(ApiPaths.PAY)
     public ResponseEntity<PayResponse> pay(HttpServletRequest http,
                                            @RequestHeader(value = HttpHeaders.IDEMPOTENCY_KEY, required = false) String idem,
                                            @Valid @RequestBody PayRequest body) {
