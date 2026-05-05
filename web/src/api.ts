@@ -14,7 +14,7 @@ function headers(idem?: string): HeadersInit {
 
 export async function pay(payerVpa: string, payeeVpa: string, amountPaise: number) {
   const idem = crypto.randomUUID();
-  const res = await fetch(`${TPAP}/api/v1/payments/pay`, {
+  const res = await fetch(`${TPAP}/api/v1/tpap/payments/pay`, {
     method: "POST",
     headers: headers(idem),
     body: JSON.stringify({ payerVpa, payeeVpa, amountPaise }),
@@ -24,7 +24,7 @@ export async function pay(payerVpa: string, payeeVpa: string, amountPaise: numbe
 }
 
 export async function balance(vpa: string) {
-  const u = new URL(`${TPAP}/api/v1/balance`);
+  const u = new URL(`${TPAP}/api/v1/tpap/balance`);
   u.searchParams.set("vpa", vpa);
   const res = await fetch(u.toString(), { headers: { [CORRELATION]: crypto.randomUUID() } });
   if (res.status === 404) return { ok: false, status: 404, body: null };
@@ -34,7 +34,7 @@ export async function balance(vpa: string) {
 
 export async function collectCreate(payerVpa: string, payeeVpa: string, amountPaise: number, note?: string) {
   const idem = crypto.randomUUID();
-  const res = await fetch(`${TPAP}/api/v1/collect-requests`, {
+  const res = await fetch(`${TPAP}/api/v1/tpap/collect-requests`, {
     method: "POST",
     headers: headers(idem),
     body: JSON.stringify({ payerVpa, payeeVpa, amountPaise, note: note ?? "" }),
@@ -45,7 +45,7 @@ export async function collectCreate(payerVpa: string, payeeVpa: string, amountPa
 
 export async function collectApprove(collectId: string, upiPinEncrypted: string) {
   const idem = crypto.randomUUID();
-  const res = await fetch(`${TPAP}/api/v1/collect-requests/${collectId}/approve`, {
+  const res = await fetch(`${TPAP}/api/v1/tpap/collect-requests/${collectId}/approve`, {
     method: "POST",
     headers: headers(idem),
     body: JSON.stringify({ upiPinEncrypted }),
@@ -55,7 +55,7 @@ export async function collectApprove(collectId: string, upiPinEncrypted: string)
 }
 
 export async function registerVpa(vpa: string, displayName: string, bankCode: string, accountId: string) {
-  const res = await fetch(`${TPAP}/api/v1/vpas/register`, {
+  const res = await fetch(`${TPAP}/api/v1/tpap/register/vpa`, {
     method: "POST",
     headers: headers(),
     body: JSON.stringify({ vpa, displayName, bankCode, accountId }),
@@ -65,7 +65,7 @@ export async function registerVpa(vpa: string, displayName: string, bankCode: st
 }
 
 export async function deviceBind() {
-  const res = await fetch(`${TPAP}/api/v1/devices/bind`, {
+  const res = await fetch(`${TPAP}/api/v1/tpap/devices/bind`, {
     method: "POST",
     headers: headers(),
     body: JSON.stringify({ device: "demo" }),
