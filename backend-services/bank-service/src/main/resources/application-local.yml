@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bank-a
+    username: postgres
+    password: admin
+  flyway:
+    enabled: true
+
+payments:
+  bank:
+    code: A
+
+server:
+  port: 8083

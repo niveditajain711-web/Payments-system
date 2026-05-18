@@ -1,0 +1,6 @@
+payments:
+  tpap:
+    psp-base-url: http://localhost:8081
+
+server:
+  port: 8080

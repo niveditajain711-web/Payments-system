@@ -1,0 +1,15 @@
+com\payments\contracts\dto\PayRequest.class
+com\payments\contracts\dto\CollectCreatedResponse.class
+com\payments\contracts\dto\internal\BankJournalApplyRequest.class
+com\payments\contracts\dto\VpaRegisterRequest.class
+com\payments\contracts\dto\internal\BankJournalApplyResponse.class
+com\payments\contracts\dto\CollectRequest.class
+com\payments\contracts\dto\PayResponse.class
+com\payments\contracts\error\ApiError.class
+com\payments\contracts\http\ApiPaths.class
+com\payments\contracts\dto\internal\VpaResolveResponse.class
+com\payments\contracts\dto\BalanceResponse.class
+com\payments\contracts\dto\CollectApproveRequest.class
+com\payments\contracts\dto\internal\BankJournalApplyRequest$LedgerLineDto.class
+com\payments\contracts\http\HttpHeaders.class
+com\payments\contracts\dto\VpaRegisterResponse.class
