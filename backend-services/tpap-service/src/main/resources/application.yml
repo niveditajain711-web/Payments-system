@@ -13,10 +13,10 @@ logging:
   pattern:
     console: "%d{ISO8601} %-5level [%X{correlationId}] %logger - %msg%n"
 
----
-spring:
-  config.activate.on-profile: docker
+# ---
+# spring:
+#   config.activate.on-profile: docker
 
-payments:
-  tpap:
-    psp-base-url: http://psp:8081
+# payments:
+#   tpap:
+#     psp-base-url: http://psp:8081

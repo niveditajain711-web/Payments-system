@@ -14,9 +14,9 @@ logging:
     console: "%d{ISO8601} %-5level [%X{correlationId}] %logger - %msg%n"
 
 ---
-spring:
-  config.activate.on-profile: docker
+# spring:
+#   config.activate.on-profile: docker
 
-payments:
-  psp:
-    npci-base-url: http://npci:8082
+# payments:
+#   psp:
+#     npci-base-url: http://npci:8082

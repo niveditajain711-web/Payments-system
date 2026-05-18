@@ -1,11 +1,63 @@
+# --- Maven / Java ---
 target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
 !.mvn/wrapper/maven-wrapper.jar
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+replay_pid*
+
+# --- Node / Vite / web ---
+node_modules/
+web/dist/
+dist/
+.npm
+*.tsbuildinfo
+
+# --- Local env (keep *.example) ---
+.env
+.env.local
+.env.*.local
+!.env*.example
+
+# --- IDE ---
 .idea/
 *.iml
+*.ipr
+*.iws
 .project
 .classpath
 .settings/
-*.log
-node_modules/
-web/dist/
+.factorypath
+.springBeans
+.sts4-cache
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+*.swp
+*.swo
+*~
+
+# --- OS ---
 .DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- Logs & temp ---
+*.log
+logs/
+*.tmp
+*.temp
+*.bak
+*.orig

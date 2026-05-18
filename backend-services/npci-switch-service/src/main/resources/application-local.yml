@@ -1,15 +1,10 @@
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/npci
-    username: postgres
-    password: admin
-  flyway:
-    enabled: true
+# spring:
+  
 
-payments:
-  npci:
-    bank-a-base-url: http://localhost:8083
-    bank-b-base-url: http://localhost:8084
+# payments:
+#   npci:
+#     bank-a-base-url: http://localhost:8083
+#     bank-b-base-url: http://localhost:8084
 
-server:
-  port: 8082
+# server:
+#   port: 8082

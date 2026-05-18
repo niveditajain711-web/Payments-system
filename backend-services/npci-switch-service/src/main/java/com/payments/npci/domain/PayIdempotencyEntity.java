@@ -3,7 +3,6 @@ package com.payments.npci.domain;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,8 +16,7 @@ public class PayIdempotencyEntity {
     @Column(name = "npci_txn_id", nullable = false)
     private String npciTxnId;
 
-    @Lob
-    @Column(name = "response_json", nullable = false)
+    @Column(name = "response_json", nullable = false, columnDefinition = "TEXT")
     private String responseJson;
 
     protected PayIdempotencyEntity() {}
