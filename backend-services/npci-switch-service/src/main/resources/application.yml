@@ -2,15 +2,21 @@ spring:
   application:
     name: npci-switch-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/npci
-    username: postgres
-    password: admin
+    url: jdbc:h2:mem:npci;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  flyway:
+    enabled: true
   jpa:
     hibernate:
       ddl-auto: validate
     open-in-view: false
-  flyway:
-    enabled: true
+    database-platform: org.hibernate.dialect.H2Dialect
 
 server:
   port: 8082
@@ -23,16 +29,3 @@ payments:
 logging:
   pattern:
     console: "%d{ISO8601} %-5level [%X{correlationId}] %logger - %msg%n"
-
-# ---
-# spring:
-#   config.activate.on-profile: docker
-#   datasource:
-#     url: jdbc:postgresql://postgres:5432/npci
-#     username: payments
-#     password: payments
-
-# payments:
-#   npci:
-#     bank-a-base-url: http://bank-a:8083
-#     bank-b-base-url: http://bank-b:8084

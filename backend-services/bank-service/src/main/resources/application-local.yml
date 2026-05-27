@@ -1,11 +1,4 @@
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/bank-a
-    username: postgres
-    password: admin
-  flyway:
-    enabled: true
-
+# Optional overrides when using spring.profiles.active=local
 payments:
   bank:
     code: A

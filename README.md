@@ -19,16 +19,16 @@ Educational **UPI-shaped payments simulation**: a multi-service stack that model
 ```
 Browser (5173) → TPAP (8080) → PSP (8081) → NPCI (8082) → Bank A (8083) / Bank B (8084)
                                                     ↓
-                                              PostgreSQL
+                                    H2 in-memory (per service, auto-created)
 ```
 
 | Service | Port | Database | Role |
 |---------|------|----------|------|
 | `tpap-service` | 8080 | — | App-facing API (pay, collect, balance, VPA register) |
 | `psp-service` | 8081 | — | Forwards requests to NPCI |
-| `npci-switch-service` | 8082 | `npci` | Switch / orchestration, VPA directory, pay idempotency |
-| `bank-service` (A) | 8083 | `bank-a` | Ledger, journal apply, balance |
-| `bank-service` (B) | 8084 | `bank-b` | Second bank instance (required for cross-bank pay) |
+| `npci-switch-service` | 8082 | H2 `npci` | Switch / orchestration, VPA directory, pay idempotency |
+| `bank-service` (A) | 8083 | H2 `bank_A` | Ledger, journal apply, balance |
+| `bank-service` (B) | 8084 | H2 `bank_B` | Second bank instance (required for cross-bank pay) |
 | `web` | 5173 | — | Demo UI |
 
 Shared DTOs and API paths live in the **`contracts`** Maven module.
@@ -37,16 +37,9 @@ Shared DTOs and API paths live in the **`contracts`** Maven module.
 
 - **Java 21**
 - **Maven 3.9+**
-- **PostgreSQL** (local install or any instance you configure)
 - **Node.js 18+** and **npm** (for the web UI)
 
-Create these databases in PostgreSQL (names match default `application.yml`):
-
-- `bank-a`
-- `bank-b`
-- `npci`
-
-Default JDBC settings in service `application.yml` files use `localhost:5432`, user `postgres`, password `admin` — change them in each module’s YAML if your setup differs.
+No external database install is required. **Bank** and **NPCI** use embedded **H2 in-memory** databases (Flyway migrations + demo seed on startup). Data is reset when a service restarts.
 
 ## Build (required once, or after contract changes)
 
@@ -92,7 +85,6 @@ mvn -pl bank-service spring-boot:run
 cd backend-services
 $env:SERVER_PORT="8084"
 $env:PAYMENTS_BANK_CODE="B"
-$env:SPRING_DATASOURCE_URL="jdbc:postgresql://localhost:5432/bank-b"
 mvn -pl bank-service spring-boot:run
 ```
 
@@ -102,9 +94,10 @@ mvn -pl bank-service spring-boot:run
 cd backend-services
 set SERVER_PORT=8084
 set PAYMENTS_BANK_CODE=B
-set SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/bank-b
 mvn -pl bank-service spring-boot:run
 ```
+
+Bank B automatically uses a separate in-memory H2 database (`bank_B`) via `payments.bank.code`.
 
 ### NPCI, PSP, TPAP
 
@@ -232,8 +225,6 @@ Per-service settings: `backend-services/<service>/src/main/resources/application
 
 | Variable | Service | Description |
 |----------|---------|-------------|
-| `SPRING_DATASOURCE_URL` | bank, npci | JDBC URL |
-| `SPRING_DATASOURCE_USERNAME` / `PASSWORD` | bank, npci | DB credentials |
 | `SERVER_PORT` | all | HTTP port |
 | `PAYMENTS_BANK_CODE` | bank | `A` or `B` |
 | `PAYMENTS_NPCI_BANK_A_BASE_URL` | npci | Default `http://localhost:8083` |
@@ -252,12 +243,13 @@ Per-service settings: `backend-services/<service>/src/main/resources/application
 | Balance 404 after registering VPA | Use a valid **account ID** from the demo table; restart NPCI + bank after code changes |
 | Pay `npciResponseCode` **51** | Insufficient funds — amount (paise) exceeds payer balance |
 | `balanceRupees` missing in JSON | Rebuild with `mvn install` and restart all Java services |
-| Hibernate / Flyway errors on startup | DB exists; correct URL; only one bank instance per port |
+| Hibernate / Flyway errors on startup | Rebuild with `mvn install`; only one bank instance per port |
+| Data missing after restart | Expected — H2 is in-memory; stop/start re-runs Flyway + demo seed |
 | Web cannot reach TPAP | TPAP running on 8080; CORS enabled on TPAP; check `VITE_TPAP_URL` |
 
 ## Tech stack
 
-- **Backend:** Java 21, Spring Boot 3.4, Spring Data JPA, Flyway, PostgreSQL
+- **Backend:** Java 21, Spring Boot 3.4, Spring Data JPA, Flyway, H2 (in-memory)
 - **Frontend:** React 18, TypeScript, Vite 6
 - **HTTP:** REST between services (`RestClient`); shared JSON contracts
 

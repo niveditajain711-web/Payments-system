@@ -1,10 +1,8 @@
-# spring:
-  
+# Optional overrides when using spring.profiles.active=local
+server:
+  port: 8082
 
-# payments:
-#   npci:
-#     bank-a-base-url: http://localhost:8083
-#     bank-b-base-url: http://localhost:8084
-
-# server:
-#   port: 8082
+payments:
+  npci:
+    bank-a-base-url: http://localhost:8083
+    bank-b-base-url: http://localhost:8084
