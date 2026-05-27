@@ -4,6 +4,7 @@ import com.payments.contracts.dto.BalanceResponse;
 import com.payments.contracts.http.ApiPaths;
 import com.payments.npci.service.BalanceQueryService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,10 +21,12 @@ public class BalanceApiController {
     }
 
     @GetMapping(ApiPaths.BALANCE)
-    public ResponseEntity<BalanceResponse> balance(@RequestParam String vpa) {
+    public ResponseEntity<BalanceResponse> balance(@RequestParam("vpa") String vpa) {
         try {
             return ResponseEntity.ok(balanceQueryService.balance(vpa));
         } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        } catch (HttpClientErrorException.NotFound e) {
             return ResponseEntity.notFound().build();
         }
     }

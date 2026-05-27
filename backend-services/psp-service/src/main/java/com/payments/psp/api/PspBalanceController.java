@@ -20,7 +20,7 @@ public class PspBalanceController {
     }
 
     @GetMapping(ApiPaths.BALANCE)
-    public ResponseEntity<BalanceResponse> balance(@RequestParam String vpa) {
+    public ResponseEntity<BalanceResponse> balance(@RequestParam("vpa") String vpa) {
         return npci.getBalance(vpa);
     }
 }

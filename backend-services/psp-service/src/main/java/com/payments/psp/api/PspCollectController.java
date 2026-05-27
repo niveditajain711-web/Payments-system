@@ -35,7 +35,7 @@ public class PspCollectController {
 
     @PostMapping(ApiPaths.COLLECT_APPROVE)
     public ResponseEntity<PayResponse> approve(
-            @PathVariable String id,
+            @PathVariable("id") String id,
             @RequestHeader(value = HttpHeaders.IDEMPOTENCY_KEY, required = false) String idem,
             @Valid @RequestBody CollectApproveRequest body) {
         return npci.approveCollect(id, body, idem);

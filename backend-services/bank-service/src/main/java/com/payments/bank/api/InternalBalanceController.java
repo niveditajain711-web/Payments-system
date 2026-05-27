@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping(ApiPaths.BANK_BASE)
 public class InternalBalanceController {
@@ -20,11 +22,27 @@ public class InternalBalanceController {
         this.accounts = accounts;
     }
 
+    /**
+     * Balance by VPA (direct) or by ledger account id (NPCI directory uses the latter for newly registered VPAs).
+     */
     @GetMapping(ApiPaths.BALANCE)
-    public ResponseEntity<BalanceResponse> balance(@RequestParam String vpa) {
-        return accounts.findByVpa(vpa)
-                .filter(a -> a.getKind() == AccountEntity.Kind.USER)
-                .map(a -> ResponseEntity.ok(new BalanceResponse(a.getVpa(), a.getBalancePaise())))
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<BalanceResponse> balance(
+            @RequestParam(value = "vpa", required = false) String vpa,
+            @RequestParam(value = "accountId", required = false) UUID accountId) {
+        if (accountId != null) {
+            return accounts.findById(accountId)
+                    .filter(a -> a.getKind() == AccountEntity.Kind.USER)
+                    .map(a -> ResponseEntity.ok(new BalanceResponse(
+                            vpa != null && !vpa.isBlank() ? vpa : a.getVpa(),
+                            a.getBalancePaise())))
+                    .orElse(ResponseEntity.notFound().build());
+        }
+        if (vpa != null && !vpa.isBlank()) {
+            return accounts.findByVpa(vpa)
+                    .filter(a -> a.getKind() == AccountEntity.Kind.USER)
+                    .map(a -> ResponseEntity.ok(new BalanceResponse(a.getVpa(), a.getBalancePaise())))
+                    .orElse(ResponseEntity.notFound().build());
+        }
+        return ResponseEntity.badRequest().build();
     }
 }

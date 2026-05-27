@@ -27,7 +27,10 @@ public class BalanceQueryService {
         String base = "A".equalsIgnoreCase(row.getBankCode()) ? props.bankABaseUrl() : props.bankBBaseUrl();
         RestClient client = RestClient.builder().baseUrl(base).requestFactory(requestFactory).build();
         return client.get()
-                .uri(uriBuilder -> uriBuilder.path(ApiPaths.BANK_BASE + ApiPaths.BALANCE).queryParam("vpa", vpa).build())
+                .uri(uriBuilder -> uriBuilder.path(ApiPaths.BANK_BASE + ApiPaths.BALANCE)
+                        .queryParam("accountId", row.getAccountId())
+                        .queryParam("vpa", vpa)
+                        .build())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body(BalanceResponse.class);

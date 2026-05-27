@@ -35,7 +35,7 @@ public class CollectApiController {
     }
 
     @PostMapping(ApiPaths.COLLECT_APPROVE)
-    public ResponseEntity<PayResponse> approve(@PathVariable String id,
+    public ResponseEntity<PayResponse> approve(@PathVariable("id") String id,
                                                  @RequestHeader(value = HttpHeaders.IDEMPOTENCY_KEY, required = false) String idem,
                                                  @Valid @RequestBody CollectApproveRequest body) {
         try {
